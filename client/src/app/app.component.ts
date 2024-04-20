@@ -17,12 +17,15 @@ export class AppComponent implements OnInit {
   }
 
   setCurrentUser() {
-    const userString = localStorage.getItem('user');
-    if (!userString) {
-      return;
+    if (typeof localStorage !== 'undefined') {
+      const userString = localStorage.getItem('user');
+      if (!userString) {
+        return;
+      }
+      const user: User = JSON.parse(userString);
+      this.accountService.setCurrentUser(user);
+    } else {
+      console.warn('localStorage is not available.');
     }
-    const user: User = JSON.parse(userString);
-    this.accountService.setCurrentUser(user);
   }
-
 }
